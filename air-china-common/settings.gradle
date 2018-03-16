@@ -1,0 +1,4 @@
+/**
+ * 项目设置文件 - air-china-common
+ */
+rootProject.name = 'air-china-common'
