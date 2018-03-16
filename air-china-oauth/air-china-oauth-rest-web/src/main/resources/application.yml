@@ -1,0 +1,30 @@
+# 启动端口配置
+server:
+  port: 8888
+
+# 定义的MyBatis JDBC连接属性
+jdbc: 
+ driver: com.mysql.cj.jdbc.Driver
+ url: jdbc:mysql://127.0.0.1:3306/air-china-db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+ username: root
+ password: 12345678
+ maxActive: 233500
+ maxIdel: 120000
+ maxWait: 100000
+
+# 定义的线程池初始化属性
+threadPool:
+ corePoolSize: 25
+ maxPoolSize: 50
+ keepAliveSeconds: 2000
+ queueCapacity: 10
+
+# 日志级别
+ logging:
+  level:
+   com:
+    com:
+     stevejrong:
+      airchina:
+       oauth:
+        mapper: debug

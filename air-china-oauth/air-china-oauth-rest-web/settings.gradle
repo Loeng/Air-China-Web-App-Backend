@@ -1,0 +1,4 @@
+/**
+ * 项目设置文件 - air-china-oauth-rest-web
+ */
+rootProject.name = 'air-china-oauth-rest-web'

@@ -1,0 +1,82 @@
+/**
+ * 构建配置文件 - air-china-oauth-rest-web
+ */
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'docker'
+apply plugin: 'application'
+
+// buildscript块声明Gradle在初始编译时所需的最基本的依赖项
+buildscript {
+	// 设置在构建项目时的软件源库
+    repositories {
+    	maven { url "https://repo.spring.io/libs-snapshot" }
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    }
+    
+    // 设置引用在构建项目时的插件
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.8.RELEASE") // 适用于Spring Boot项目的Gradle管理插件
+        classpath("se.transmode.gradle:gradle-docker:1.2")
+    }
+}
+
+docker {
+	baseImage 'hub.c.163.com/library/java:8u111-jre' // 基于何镜像来构建
+	maintainer 'Steve Jrong https://www.stevejrong.top/' // 声明镜像作者
+	
+	useApi true
+	hostUrl 'http://hub.c.163.com'
+	apiUsername '1554052208@qq.com'
+	apiPassword 'qazwsxedc123'
+	apiEmail ''
+}
+
+tasks.withType(JavaCompile) {  
+	options.encoding = "UTF-8"  
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+task buildDocker(type: Docker) {
+    applicationName = jar.baseName
+    tagVersion = jar.version
+    dockerfile = file('src/main/resources/Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into stageDir
+        }
+    }
+}
+
+sourceCompatibility = 1.8 // 指定编译时的JDK版本
+targetCompatibility = 1.8 // 指定确保class文件与targetCompatibility指定版本，或者更新的java虚拟机兼容版本
+
+group 'com.stevejrong' // 设置用于Docker打包时镜像的组织
+archivesBaseName = 'air-china-oauth-rest-web-app' // 设置用于Jar包的最终名称
+version = '0.1-SNAPSHOT' // 设置用于Jar包的最终版本号
+
+// 设置用于项目的软件源库
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+}
+
+// 设置项目的依赖
+dependencies {
+    compile project(':air-china-oauth-service')
+    compile project(':air-china-oauth-rest-common-web')
+    compile project(':air-china-oauth-task')
+    
+	compile("org.springframework.boot:spring-boot-starter-web")
+	//* compile("org.springframework.cloud:spring-cloud-starter-eureka:1.4.0.RELEASE")
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+	// compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '1.3.1'
+	compile group: 'com.alibaba', name: 'druid', version: '1.1.8'
+	compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.2.4'
+	compile group: 'org.apache.shiro', name: 'shiro-ehcache', version: '1.2.4'
+	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.8.9'
+    
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
