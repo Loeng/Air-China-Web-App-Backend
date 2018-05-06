@@ -9,6 +9,7 @@ CREATE DATABASE IF not exists `air-china-oauth-db` DEFAULT CHARSET utf8mb4 COLLA
 -- ----------------------------
 -- Table structure for t_base_menu
 -- ----------------------------
+USE `air-china-oauth-db`;
 DROP TABLE IF EXISTS `t_base_menu`;
 CREATE TABLE `t_base_menu` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -29,6 +30,7 @@ CREATE TABLE `t_base_menu` (
 -- ----------------------------
 -- Table structure for t_base_menu_base_role_rela
 -- ----------------------------
+USE `air-china-oauth-db`;
 DROP TABLE IF EXISTS `t_base_menu_base_role_rela`;
 CREATE TABLE `t_base_menu_base_role_rela` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -43,6 +45,7 @@ CREATE TABLE `t_base_menu_base_role_rela` (
 -- ----------------------------
 -- Table structure for t_base_role
 -- ----------------------------
+USE `air-china-oauth-db`;
 DROP TABLE IF EXISTS `t_base_role`;
 CREATE TABLE `t_base_role` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -60,6 +63,7 @@ CREATE TABLE `t_base_role` (
 -- ----------------------------
 -- Table structure for t_base_sys
 -- ----------------------------
+USE `air-china-oauth-db`;
 DROP TABLE IF EXISTS `t_base_sys`;
 CREATE TABLE `t_base_sys` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -77,6 +81,7 @@ CREATE TABLE `t_base_sys` (
 -- ----------------------------
 -- Table structure for t_base_token
 -- ----------------------------
+USE `air-china-oauth-db`;
 DROP TABLE IF EXISTS `t_base_token`;
 CREATE TABLE `t_base_token` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -93,6 +98,7 @@ CREATE TABLE `t_base_token` (
 -- ----------------------------
 -- Table structure for t_base_user
 -- ----------------------------
+USE `air-china-oauth-db`;
 DROP TABLE IF EXISTS `t_base_user`;
 CREATE TABLE `t_base_user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -114,6 +120,7 @@ CREATE TABLE `t_base_user` (
 -- ----------------------------
 -- Table structure for t_base_user_base_user_group_rela
 -- ----------------------------
+USE `air-china-oauth-db`;
 DROP TABLE IF EXISTS `t_base_user_base_user_group_rela`;
 CREATE TABLE `t_base_user_base_user_group_rela` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -128,6 +135,7 @@ CREATE TABLE `t_base_user_base_user_group_rela` (
 -- ----------------------------
 -- Table structure for t_base_user_group
 -- ----------------------------
+USE `air-china-oauth-db`;
 DROP TABLE IF EXISTS `t_base_user_group`;
 CREATE TABLE `t_base_user_group` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -147,6 +155,7 @@ CREATE TABLE `t_base_user_group` (
 -- ----------------------------
 -- Table structure for t_base_user_group_base_role_rela
 -- ----------------------------
+USE `air-china-oauth-db`;
 DROP TABLE IF EXISTS `t_base_user_group_base_role_rela`;
 CREATE TABLE `t_base_user_group_base_role_rela` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
