@@ -5,7 +5,7 @@ server:
 # 定义的MyBatis JDBC连接属性
 jdbc: 
  driver: com.mysql.cj.jdbc.Driver
- url: jdbc:mysql://127.0.0.1:3306/air-china-db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+ url: jdbc:mysql://127.0.0.1:3306/air-china-oauth-db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
  username: root
  password: 12345678
  maxActive: 233500
