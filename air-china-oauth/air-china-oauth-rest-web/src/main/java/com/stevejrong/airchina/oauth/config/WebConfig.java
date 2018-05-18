@@ -35,7 +35,7 @@ import com.stevejrong.airchina.oauth.rest.web.controller.AppErrorController;
 
 /**
  * Configuration - Spring Web MVC
- * 
+ *
  * @author Steve Jrong
  * @since 1.0 create date: 2018年2月25日 下午10:55:55
  */
@@ -51,8 +51,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 	 */
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-		configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8).mediaType("xml", MediaType.APPLICATION_JSON_UTF8)
-				.mediaType("json", MediaType.APPLICATION_JSON);
+		configurer.defaultContentType(MediaType.APPLICATION_JSON_UTF8).mediaType("json", MediaType.APPLICATION_JSON);
 	}
 
 	/**

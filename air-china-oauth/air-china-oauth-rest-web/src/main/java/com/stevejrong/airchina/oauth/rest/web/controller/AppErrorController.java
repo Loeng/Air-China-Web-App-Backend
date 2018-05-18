@@ -19,6 +19,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
+import com.stevejrong.airchina.common.wrapper.ResponseWrapper;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -30,14 +32,16 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.stevejrong.airchina.oauth.common.constant.Constants;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * Controller - 异常处理控制器
- * 
+ *
  * @author Steve Jrong
  * @since 1.0 create date: 2018年2月26日 下午12:18:14
  */
 @RestController
+@EnableWebMvc
 public class AppErrorController implements ErrorController {
 
 	private ErrorAttributes errorAttributes;
@@ -46,8 +50,15 @@ public class AppErrorController implements ErrorController {
 		this.errorAttributes = errorAttributes;
 	}
 
-	@RequestMapping(value = Constants.ERROR_SUFFIX)
-	public @ResponseBody ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
+	/**
+	 * error异常请求统一处理
+	 *
+	 * @param request HttpServletRequest对象
+	 * @return JSON格式的响应体。格式为：{ timestamp:[时间戳], status:[HTTP状态码], error:[异常原因], message:[异常详细信息], path:[异常请求路径] }
+	 */
+	@RequestMapping(value = Constants.ERROR_SUFFIX, produces = Constants.APPLICATION_JSON_UTF8)
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
 		Map<String, Object> body = getErrorAttributes(request, getTraceParameter(request));
 		HttpStatus status = getStatus(request);
 		return new ResponseEntity<Map<String, Object>>(body, status);

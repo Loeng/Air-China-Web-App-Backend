@@ -17,7 +17,7 @@ package com.stevejrong.airchina.oauth.common.constant;
 
 /**
  * 常量
- * 
+ *
  * @author Steve Jrong
  * @since 1.0 create date: 2018年2月26日 下午1:06:44
  */
@@ -27,6 +27,7 @@ public class Constants {
 	public static final String ERROR_SUFFIX = "/error";
 	public static final String USER_IDENTITY_CODE = "userIdentityCode";
 	public static final String FAILED_REASON = "failed reason";
+	public static final  String APPLICATION_JSON_UTF8 = "application/json;charset=UTF-8";
 
 	/** Shiro */
 	public static final String SHIRO_LOGOUT_SUFFIX = "/logout";
