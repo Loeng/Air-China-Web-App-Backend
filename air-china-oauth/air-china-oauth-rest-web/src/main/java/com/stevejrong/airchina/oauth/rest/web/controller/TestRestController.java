@@ -15,6 +15,8 @@
  */
 package com.stevejrong.airchina.oauth.rest.web.controller;
 
+import com.stevejrong.airchina.common.util.HttpStatus;
+import com.stevejrong.airchina.common.wrapper.ResponseWrapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,8 +32,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/tests")
 public class TestRestController {
 
-	@GetMapping("/test1")
-	public @ResponseBody String test() {
-		return "This is test message by rest!";
+	@GetMapping(value = "/test1")
+	@ResponseBody
+	public ResponseWrapper test() {
+		 return ResponseWrapper.response(HttpStatus.OK.code(), "This is test message by rest!", null);
 	}
 }

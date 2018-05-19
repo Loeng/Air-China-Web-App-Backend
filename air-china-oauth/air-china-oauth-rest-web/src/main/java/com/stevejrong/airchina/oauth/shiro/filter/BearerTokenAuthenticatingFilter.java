@@ -15,12 +15,21 @@
  */
 package com.stevejrong.airchina.oauth.shiro.filter;
 
-import java.util.Locale;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
+import com.alibaba.fastjson.JSONObject;
+import com.stevejrong.airchina.common.util.HttpStatus;
+import com.stevejrong.airchina.common.util.HttpUtil;
+import com.stevejrong.airchina.oauth.common.constant.Constants;
+import com.stevejrong.airchina.oauth.common.constant.ExceptionConstantsEnum;
+import com.stevejrong.airchina.oauth.model.TokenModel;
+import com.stevejrong.airchina.oauth.model.UserModel;
+import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaExpiredTokenException;
+import com.stevejrong.airchina.oauth.service.TokenService;
+import com.stevejrong.airchina.oauth.service.UserService;
+import com.stevejrong.airchina.oauth.token.BearerToken;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.codec.Base64;
@@ -31,19 +40,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSONObject;
-import com.stevejrong.airchina.common.util.HttpStatus;
-import com.stevejrong.airchina.common.util.HttpUtil;
-import com.stevejrong.airchina.oauth.common.constant.Constants;
-import com.stevejrong.airchina.oauth.model.TokenModel;
-import com.stevejrong.airchina.oauth.model.UserModel;
-import com.stevejrong.airchina.oauth.service.TokenService;
-import com.stevejrong.airchina.oauth.service.UserService;
-import com.stevejrong.airchina.oauth.token.BearerToken;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 /**
  * Filter - Token权限认证过滤器
@@ -153,7 +153,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 	 * @param authorizeHeader
 	 * @return
 	 */
-	String[] getHeaderPrincipalsAndCredentials(String authorizeHeader) {
+	String[] getHeaderPrincipalsAndCredentials(String authorizeHeader) throws AirChinaExpiredTokenException {
 		if (authorizeHeader == null) {
 			return null;
 		}
@@ -164,9 +164,16 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 		return getPrincipalsAndCredentials(authTokens[1]);
 	}
 
-	String[] getPrincipalsAndCredentials(String authorizeParam) {
-		Jws<Claims> claims = Jwts.parser().setSigningKey(Constants.SECURET.getBytes())
-				.parseClaimsJws(authorizeParam);
+	String[] getPrincipalsAndCredentials(String authorizeParam) throws AirChinaExpiredTokenException {
+		Jws<Claims> claims = null;
+		try {
+			claims = Jwts.parser().setSigningKey(Constants.SECURET.getBytes())
+					.parseClaimsJws(authorizeParam);
+		} catch (ExpiredJwtException e) {
+			// 如果是Jwt Token过期异常，就捕获到并抛出一个自定义的异常
+			throw new AirChinaExpiredTokenException(ExceptionConstantsEnum.EXPIRED_TOKEN.exceptionCode(),
+					ExceptionConstantsEnum.EXPIRED_TOKEN.exceptionMessage());
+		}
 		String email = claims.getBody().getSubject();
 		return new String[] { email, authorizeParam };
 	}
@@ -187,7 +194,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 	 * @param authorizeParam
 	 * @return
 	 */
-	String[] getParameterPrincipalsAndCredentials(String authorizeParam) {
+	String[] getParameterPrincipalsAndCredentials(String authorizeParam) throws AirChinaExpiredTokenException {
 		if (authorizeParam == null) {
 			return null;
 		}

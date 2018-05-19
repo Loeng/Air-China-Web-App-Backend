@@ -27,7 +27,9 @@ public class Constants {
 	public static final String ERROR_SUFFIX = "/error";
 	public static final String USER_IDENTITY_CODE = "userIdentityCode";
 	public static final String FAILED_REASON = "failed reason";
-	public static final  String APPLICATION_JSON_UTF8 = "application/json;charset=UTF-8";
+	public static final String APPLICATION_JSON = "application/json";
+	public static final String UTF8 = "UTF-8";
+	public static final String APPLICATION_JSON_UTF8 = APPLICATION_JSON + ";charset=" + UTF8;
 
 	/** Shiro */
 	public static final String SHIRO_LOGOUT_SUFFIX = "/logout";

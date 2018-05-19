@@ -15,9 +15,7 @@
  */
 package com.stevejrong.airchina.oauth.config;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-
+import com.stevejrong.airchina.oauth.rest.web.controller.AppErrorController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +29,8 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import com.stevejrong.airchina.oauth.rest.web.controller.AppErrorController;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Configuration - Spring Web MVC

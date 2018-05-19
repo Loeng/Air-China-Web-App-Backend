@@ -15,20 +15,20 @@
  */
 package com.stevejrong.airchina.oauth.handler;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authz.UnauthenticatedException;
-import org.apache.shiro.authz.UnauthorizedException;
+import com.stevejrong.airchina.common.wrapper.ResponseWrapper;
+import com.stevejrong.airchina.oauth.common.constant.ExceptionConstantsEnum;
+import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaExpiredTokenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Controller Advice - 异常增强
+ * 这里仅适用于Controller层的异常捕获和处理
  * 
  * @author Steve Jrong
  * @since 1.0 create date: 2018年2月26日 下午12:21:08
@@ -37,14 +37,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ApplicationExceptionHandler {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationExceptionHandler.class);
 
-	/**
-	 * 将异常类型AuthenticationException、UnknownAccountException、UnauthenticatedException、
-	 * IncorrectCredentialsException和UnauthorizedException都指定为HTTP 401异常代码
-	 */
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	@ExceptionHandler({ AuthenticationException.class, UnknownAccountException.class, UnauthenticatedException.class,
-			IncorrectCredentialsException.class, UnauthorizedException.class })
-	public void processUnauthorizedException() {
-		LOGGER.info("无权限或未登录...");
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(value = AirChinaExpiredTokenException.class)
+	@ResponseBody
+	public ResponseWrapper processExpiredJwtException(AirChinaExpiredTokenException ex) {
+		LOGGER.error("Token过期……");
+		return ResponseWrapper.response(ExceptionConstantsEnum.EXPIRED_TOKEN.exceptionCode(),
+				ExceptionConstantsEnum.EXPIRED_TOKEN.exceptionMessage(), ex.getLocalizedMessage());
 	}
 }

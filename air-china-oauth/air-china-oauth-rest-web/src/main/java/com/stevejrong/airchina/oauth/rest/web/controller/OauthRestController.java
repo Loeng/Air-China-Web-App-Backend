@@ -15,8 +15,8 @@
  */
 package com.stevejrong.airchina.oauth.rest.web.controller;
 
-import java.util.List;
-
+import com.stevejrong.airchina.common.util.HttpStatus;
+import com.stevejrong.airchina.common.wrapper.ResponseWrapper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -24,15 +24,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.stevejrong.airchina.oauth.task.RecordRequestLogTask;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller - 权限验证
@@ -45,8 +37,8 @@ import com.stevejrong.airchina.oauth.task.RecordRequestLogTask;
 public class OauthRestController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OauthRestController.class);
 
-	@Autowired
-	private RecordRequestLogTask recordRequestLogTask;
+//	@Autowired
+//	private RecordRequestLogTask recordRequestLogTask;
 
 	/**
 	 * 权限验证
@@ -65,13 +57,13 @@ public class OauthRestController {
 	@RequiresRoles("super-admin")
 	public @ResponseBody Object getAll() {
 		LOGGER.info("获取用户列表...");
-		recordRequestLog();
-		return "{\"key\":\"success\",\"value\":\"mock data...\"}";
+//		recordRequestLog();
+		return ResponseWrapper.response(HttpStatus.OK.code(), null, "mock data");
 	}
 
-	private void recordRequestLog() {
+	/*private void recordRequestLog() {
 		List<?> principals = SecurityUtils.getSubject().getPrincipals().asList();
 		String userName = principals.get(0).toString();
 		recordRequestLogTask.doRecordRequestLog(userName); // 多线程记录日志
-	}
+	}*/
 }

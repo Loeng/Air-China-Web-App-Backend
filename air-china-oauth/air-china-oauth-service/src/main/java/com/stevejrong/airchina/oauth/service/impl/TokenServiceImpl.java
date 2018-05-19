@@ -15,20 +15,18 @@
  */
 package com.stevejrong.airchina.oauth.service.impl;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.stevejrong.airchina.oauth.common.constant.Constants;
 import com.stevejrong.airchina.oauth.model.TokenModel;
 import com.stevejrong.airchina.oauth.repository.TokenRepository;
 import com.stevejrong.airchina.oauth.service.TokenService;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * Repository Implementation - Token
@@ -45,8 +43,8 @@ public class TokenServiceImpl implements TokenService {
 	@Override
 	public String createAuthenticationToken(String userId, String email) {
 		LocalDate currentDate = LocalDate.now();
-		LocalDate nextMoth = currentDate.plusMonths(1);
-		Date date = Date.from(nextMoth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		LocalDate sevenDaysLaterDate = currentDate.plusDays(7); // 当前时间7天后的时间
+		Date date = Date.from(sevenDaysLaterDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		String token = Jwts.builder().setSubject(email).setExpiration(date)
 				.signWith(SignatureAlgorithm.HS256, Constants.SECURET.getBytes()).compact();
 

@@ -2,6 +2,7 @@
 server:
   port: 8888
 
+
 # 定义的MyBatis JDBC连接属性
 jdbc: 
  driver: com.mysql.cj.jdbc.Driver
@@ -28,3 +29,9 @@ threadPool:
       airchina:
        oauth:
         mapper: debug
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
