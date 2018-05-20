@@ -1,0 +1,4 @@
+/**
+ * 项目设置文件 - air-china-eureka-server
+ */
+rootProject.name = 'air-china-eureka-server'

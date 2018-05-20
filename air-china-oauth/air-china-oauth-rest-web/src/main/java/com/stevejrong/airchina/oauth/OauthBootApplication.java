@@ -15,18 +15,17 @@
  */
 package com.stevejrong.airchina.oauth;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
-import org.springframework.scheduling.annotation.EnableAsync;
-
 import com.stevejrong.airchina.oauth.config.AppInitializerConfig;
 import com.stevejrong.airchina.oauth.config.MyBatisConfig;
 import com.stevejrong.airchina.oauth.config.ShiroConfig;
 import com.stevejrong.airchina.oauth.config.WebConfig;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * 启动类
@@ -36,7 +35,7 @@ import com.stevejrong.airchina.oauth.config.WebConfig;
  */
 @Import({ AppInitializerConfig.class, WebConfig.class, ShiroConfig.class, MyBatisConfig.class })
 @ComponentScan(basePackages = { "com.stevejrong.airchina.oauth" })
-// @EnableDiscoveryClient
+@EnableDiscoveryClient
 @EnableAsync
 @SpringBootConfiguration
 @SpringBootApplication
