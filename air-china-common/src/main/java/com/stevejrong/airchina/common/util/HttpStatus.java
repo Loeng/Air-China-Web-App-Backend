@@ -23,16 +23,28 @@ package com.stevejrong.airchina.common.util;
  * @since 1.0 create date: 2018年2月26日 下午1:29:48
  */
 public enum HttpStatus {
-	OK(200), BAD_REQUEST(400), UNAUTHORIZED(401), NOT_FOUND(404), FORBIDDEN(403), INTERNAL_ERROR(500);
+	OK(200, "成功"),
+	BAD_REQUEST(400, "请求参数错误"),
+	UNAUTHORIZED(401, "无权限访问资源"),
+	NOT_FOUND(404, "资源未找到"),
+	FORBIDDEN(403, "资源访问受限"),
+	INTERNAL_ERROR(500, "服务器内部错误");
 
-	private final int code;
+	private Integer code;
 
-	HttpStatus(int code) {
+	private String message;
+
+	HttpStatus(Integer code, String message) {
 		this.code = code;
+		this.message = message;
 	}
 
-	public int code() {
+	public Integer code() {
 		return code;
+	}
+
+	public String message() {
+		return message;
 	}
 
 	@Override
