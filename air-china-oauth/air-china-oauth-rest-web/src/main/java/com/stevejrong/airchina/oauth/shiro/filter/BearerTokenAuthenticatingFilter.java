@@ -16,13 +16,15 @@
 package com.stevejrong.airchina.oauth.shiro.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.stevejrong.airchina.common.util.DateTimeUtil;
 import com.stevejrong.airchina.common.util.HttpStatus;
 import com.stevejrong.airchina.common.util.HttpUtil;
 import com.stevejrong.airchina.oauth.common.constant.Constants;
-import com.stevejrong.airchina.oauth.common.constant.ExceptionConstantsEnum;
 import com.stevejrong.airchina.oauth.model.TokenModel;
 import com.stevejrong.airchina.oauth.model.UserModel;
-import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaExpiredTokenException;
+import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaHeaderParamsException;
+import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaTokenExpiredException;
+import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaTokenNotExistException;
 import com.stevejrong.airchina.oauth.service.TokenService;
 import com.stevejrong.airchina.oauth.service.UserService;
 import com.stevejrong.airchina.oauth.token.BearerToken;
@@ -112,6 +114,13 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 
 			String userName = principlesAndCredentials[0];
 			String token = principlesAndCredentials[1];
+
+			UserModel user = userService.getByEmail(userName); // 暂时仅支持Email登录，其他方式有待扩展
+			TokenModel existToken = tokenService.getByUserId(user.getUserId());
+			if (null == existToken) {
+				throw new AirChinaTokenNotExistException();
+			}
+
 			return new BearerToken(userName, token);
 		}
 	}
@@ -153,7 +162,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 	 * @param authorizeHeader
 	 * @return
 	 */
-	String[] getHeaderPrincipalsAndCredentials(String authorizeHeader) throws AirChinaExpiredTokenException {
+	String[] getHeaderPrincipalsAndCredentials(String authorizeHeader) {
 		if (authorizeHeader == null) {
 			return null;
 		}
@@ -164,15 +173,13 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 		return getPrincipalsAndCredentials(authTokens[1]);
 	}
 
-	String[] getPrincipalsAndCredentials(String authorizeParam) throws AirChinaExpiredTokenException {
+	String[] getPrincipalsAndCredentials(String authorizeParam) throws AirChinaTokenExpiredException {
 		Jws<Claims> claims = null;
 		try {
 			claims = Jwts.parser().setSigningKey(Constants.SECURET.getBytes())
 					.parseClaimsJws(authorizeParam);
 		} catch (ExpiredJwtException e) {
-			// 如果是Jwt Token过期异常，就捕获到并抛出一个自定义的异常
-			throw new AirChinaExpiredTokenException(ExceptionConstantsEnum.EXPIRED_TOKEN.exceptionCode(),
-					ExceptionConstantsEnum.EXPIRED_TOKEN.exceptionMessage());
+			throw new AirChinaTokenExpiredException(); // 如果是Jwt Token过期异常，就捕获到并抛出一个自定义的异常
 		}
 		String email = claims.getBody().getSubject();
 		return new String[] { email, authorizeParam };
@@ -194,7 +201,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 	 * @param authorizeParam
 	 * @return
 	 */
-	String[] getParameterPrincipalsAndCredentials(String authorizeParam) throws AirChinaExpiredTokenException {
+	String[] getParameterPrincipalsAndCredentials(String authorizeParam) {
 		if (authorizeParam == null) {
 			return null;
 		}
@@ -219,8 +226,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 				return false;
 			}
 		} else {
-			HttpUtil.outputErrorMessage(HttpUtil.convertServletResponseToHttp(response), HttpStatus.UNAUTHORIZED);
-			return false;
+			throw new AirChinaHeaderParamsException();
 		}
 	}
 
@@ -257,15 +263,18 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
 			ServletResponse response) throws Exception {
 		if (isLoginRequest(request, response)) { // 判断是否是登录请求，是则继续执行
+			LOGGER.debug("开始创建Token……");
 			String email = (String) subject.getPrincipal();
 			UserModel user = userService.getByEmail(email);
 			TokenModel existToken = tokenService.getByUserId(user.getUserId());
 			
-			String newToken = createAuthenticationToken(existToken, user, email);
+			String newToken = createAuthenticationToken(existToken, user, email); // 创建Token
 
-			HttpUtil.outputJsonMessage(HttpUtil.convertServletResponseToHttp(response), Constants.MESSAGE_STATUS,
-					HttpStatus.OK.code(), Constants.MESSAGE, HttpStatus.OK.code(), Constants.USER_IDENTITY_CODE,
-					email, Constants.TOKEN, newToken);
+			HttpUtil.outputJsonMessage(HttpUtil.convertServletResponseToHttp(response),
+					Constants.MESSAGE_TIMESTAMP, DateTimeUtil.getTimestampByNow(),
+					Constants.MESSAGE_CODE, HttpStatus.OK.code(),
+					Constants.USER_ID, email,
+					Constants.TOKEN, newToken);
 			return false;
 		} else {
 			return true;
@@ -294,7 +303,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 	protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request,
 			ServletResponse response) {
 		if (isLoginRequest(request, response)) {
-			HttpUtil.outputJsonMessage(HttpUtil.convertServletResponseToHttp(response), Constants.MESSAGE_STATUS,
+			HttpUtil.outputJsonMessage(HttpUtil.convertServletResponseToHttp(response), Constants.MESSAGE_CODE,
 					HttpStatus.OK.code(), Constants.MESSAGE, "unauthorized", Constants.FAILED_REASON,
 					e.getLocalizedMessage());
 		} else {

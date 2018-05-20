@@ -15,13 +15,12 @@
  */
 package com.stevejrong.airchina.oauth.config;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.Filter;
-
+import com.stevejrong.airchina.oauth.common.constant.Constants;
+import com.stevejrong.airchina.oauth.shiro.filter.BearerTokenAuthenticatingFilter;
+import com.stevejrong.airchina.oauth.shiro.filter.BearerTokenRevokeFilter;
+import com.stevejrong.airchina.oauth.shiro.realm.BearerTokenAuthenticatingRealm;
+import com.stevejrong.airchina.oauth.shiro.realm.DatabaseRealm;
+import com.stevejrong.airchina.oauth.shiro.stateless.StalessSecurityManager;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.authc.credential.PasswordMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
@@ -35,11 +34,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
-import com.stevejrong.airchina.oauth.shiro.filter.BearerTokenAuthenticatingFilter;
-import com.stevejrong.airchina.oauth.shiro.filter.BearerTokenRevokeFilter;
-import com.stevejrong.airchina.oauth.shiro.realm.BearerTokenAuthenticatingRealm;
-import com.stevejrong.airchina.oauth.shiro.realm.DatabaseRealm;
-import com.stevejrong.airchina.oauth.shiro.stateless.StalessSecurityManager;
+import javax.servlet.Filter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Configuration - Shiro
@@ -54,12 +53,12 @@ public class ShiroConfig {
 	public ShiroFilterFactoryBean shiroFilter() {
 		ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
 		shiroFilter.setSecurityManager(securityManager());
-		shiroFilter.setUnauthorizedUrl("/403");
+		shiroFilter.setUnauthorizedUrl(Constants.SHIRO_UNAUTHORIZED_SUFFIX);
 
 		Map<String, String> filterChainDefinitionMapping = new HashMap<>();
-		filterChainDefinitionMapping.put("/users/auth", "tokenAuthc");
-		filterChainDefinitionMapping.put("/users/list", "tokenAuthc");
-		filterChainDefinitionMapping.put("/users/logout", "tokenAuthc,tokenLogout");
+		filterChainDefinitionMapping.put(Constants.SHIRO_AUTHENTICATE_SUFFIX, "tokenAuthc");
+		filterChainDefinitionMapping.put(Constants.SHIRO_LOGOUT_SUFFIX, "tokenAuthc,tokenLogout");
+		filterChainDefinitionMapping.put(Constants.REQUEST_ROOT_SUFFIX + "/**", "tokenAuthc");
 		shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMapping);
 
 		Map<String, Filter> filters = new HashMap<String, Filter>();
@@ -165,7 +164,7 @@ public class ShiroConfig {
 		BearerTokenAuthenticatingFilter filter = new BearerTokenAuthenticatingFilter();
 		filter.setUserNameParam("username"); // 创建Token时的用户名（电子邮件地址）入参
 		filter.setPasswordParam("password"); // 创建Token时的用户密码入参
-		filter.setLoginUrl("/users/auth"); // 获取新Token的地址
+		filter.setLoginUrl(Constants.SHIRO_AUTHENTICATE_SUFFIX); // 获取新Token的地址，即授权验证的地址
 		return filter;
 	}
 
@@ -185,7 +184,6 @@ public class ShiroConfig {
 	/**
 	 * 设置AuthorizationAttributeSourceAdvisor类以解析Shiro注解
 	 * 
-	 * @param securityManager
 	 * @return
 	 */
 	@Bean

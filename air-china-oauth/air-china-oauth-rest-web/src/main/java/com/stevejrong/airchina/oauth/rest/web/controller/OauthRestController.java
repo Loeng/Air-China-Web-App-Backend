@@ -17,6 +17,7 @@ package com.stevejrong.airchina.oauth.rest.web.controller;
 
 import com.stevejrong.airchina.common.util.HttpStatus;
 import com.stevejrong.airchina.common.wrapper.ResponseWrapper;
+import com.stevejrong.airchina.oauth.common.constant.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -33,21 +34,18 @@ import org.springframework.web.bind.annotation.*;
  * @since 1.0 create date: 2018年2月27日 上午11:58:34
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping(Constants.REQUEST_ROOT_SUFFIX)
 public class OauthRestController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OauthRestController.class);
 
-//	@Autowired
-//	private RecordRequestLogTask recordRequestLogTask;
-
 	/**
-	 * 权限验证
-	 * 
+	 * 用户权限验证
+	 *
 	 * @param credentials
 	 */
-	@PostMapping("/auth")
+	@PostMapping("/authenticate")
 	public void authenticate(@RequestBody final UsernamePasswordToken credentials) {
-		LOGGER.info("验证开始...用户名： {}", credentials.getUsername());
+		LOGGER.debug("验证开始...用户名： {}", credentials.getUsername());
 		final Subject subject = SecurityUtils.getSubject();
 		subject.login(credentials);
 	}
@@ -56,9 +54,8 @@ public class OauthRestController {
 	@RequiresAuthentication
 	@RequiresRoles("super-admin")
 	public @ResponseBody Object getAll() {
-		LOGGER.info("获取用户列表...");
-//		recordRequestLog();
-		return ResponseWrapper.response(HttpStatus.OK.code(), null, "mock data");
+		LOGGER.debug("获取用户列表...");
+		return ResponseWrapper.response(HttpStatus.OK.code(), HttpStatus.OK.message(), "mock data");
 	}
 
 	/*private void recordRequestLog() {

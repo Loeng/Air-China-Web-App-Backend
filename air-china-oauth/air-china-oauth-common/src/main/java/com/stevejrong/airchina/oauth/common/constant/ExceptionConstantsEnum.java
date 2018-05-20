@@ -23,7 +23,10 @@ package com.stevejrong.airchina.oauth.common.constant;
  * @since 1.0 create date: 2018年5月26日 下午10:52
  */
 public enum ExceptionConstantsEnum {
-    EXPIRED_TOKEN(3001, "Token已过期，请您重新登录");
+    TOKEN_EXPIRED(1000, "Token已过期，请您重新登录"),
+    TOKEN_NOT_EXIST(1001, "Token不存在或无效"),
+    HEADER_PARAMS_INCORRECT(2000, "请求头参数错误"),
+    UNKNOWN_EXPERTION(-1, "未知错误");
 
     private Integer exceptionCode; // 异常代码
 

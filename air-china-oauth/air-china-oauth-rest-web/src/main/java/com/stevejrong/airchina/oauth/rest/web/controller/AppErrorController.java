@@ -91,49 +91,51 @@ public class AppErrorController implements ErrorController {
             exception = (Throwable) requestAttributes.getAttribute("javax.servlet.error.exception", RequestAttributes.SCOPE_REQUEST);
         }
 
-        // 通过反射获取Throwable对象中的code和message
-        Field[] fields = exception.getClass().getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            try {
-                Field field = fields[i]; // 得到属性
-                field.setAccessible(true); // 允许私有访问
-                String name = field.getName(); // 获取属性名
-                Object value = field.get(exception); // 获取属性值
+        if (null != exception) {
+            // 通过反射获取Throwable对象中的code和message
+            Field[] fields = exception.getClass().getDeclaredFields();
+            for (int i = 0; i < fields.length; i++) {
+                try {
+                    Field field = fields[i]; // 得到属性
+                    field.setAccessible(true); // 允许私有访问
+                    String name = field.getName(); // 获取属性名
+                    Object value = field.get(exception); // 获取属性值
 
-                if ("rootCause".equals(name)) {
-                    Field[] subFields = value.getClass().getDeclaredFields();
-                    for (int j = 0; j < subFields.length; j++) {
-                        Field subField = subFields[j]; // 得到属性
-                        subField.setAccessible(true); // 允许私有访问
-                        String subFieldName = subField.getName(); // 获取属性名
-                        Object subFieldValue = subField.get(value); // 获取属性值
+                    if ("rootCause".equals(name)) {
+                        Field[] subFields = value.getClass().getDeclaredFields();
+                        for (int j = 0; j < subFields.length; j++) {
+                            Field subField = subFields[j]; // 得到属性
+                            subField.setAccessible(true); // 允许私有访问
+                            String subFieldName = subField.getName(); // 获取属性名
+                            Object subFieldValue = subField.get(value); // 获取属性值
 
-                        if ("timestamp".equals(subFieldName)) {
-                            timestamp = Long.valueOf(subFieldValue.toString());
-                            continue;
+                            if ("timestamp".equals(subFieldName)) {
+                                timestamp = Long.valueOf(subFieldValue.toString());
+                                continue;
+                            }
+
+                            if ("code".equals(subFieldName)) {
+                                code = Integer.valueOf(subFieldValue.toString());
+                                continue;
+                            }
+
+                            if ("message".equals(subFieldName)) {
+                                exceptionReason = subFieldValue.toString();
+                                continue;
+                            }
                         }
 
-                        if ("code".equals(subFieldName)) {
-                            code = Integer.valueOf(subFieldValue.toString());
-                            continue;
-                        }
-
-                        if ("message".equals(subFieldName)) {
-                            exceptionReason = subFieldValue.toString();
-                            continue;
-                        }
+                        break;
                     }
-
-                    break;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
             }
-        }
 
-        errorAttributes.put("timestamp", timestamp);
-        errorAttributes.put("code", code);
-        errorAttributes.put("message", exceptionReason);
+            errorAttributes.put("timestamp", timestamp);
+            errorAttributes.put("code", code);
+            errorAttributes.put("message", exceptionReason);
+        }
 
         return errorAttributes;
     }

@@ -17,7 +17,7 @@ package com.stevejrong.airchina.oauth.handler;
 
 import com.stevejrong.airchina.common.wrapper.ResponseWrapper;
 import com.stevejrong.airchina.oauth.common.constant.ExceptionConstantsEnum;
-import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaExpiredTokenException;
+import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaTokenExpiredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -38,11 +38,11 @@ public class ApplicationExceptionHandler {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationExceptionHandler.class);
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(value = AirChinaExpiredTokenException.class)
+	@ExceptionHandler(value = AirChinaTokenExpiredException.class)
 	@ResponseBody
-	public ResponseWrapper processExpiredJwtException(AirChinaExpiredTokenException ex) {
+	public ResponseWrapper processExpiredJwtException(AirChinaTokenExpiredException ex) {
 		LOGGER.error("Token过期……");
-		return ResponseWrapper.response(ExceptionConstantsEnum.EXPIRED_TOKEN.exceptionCode(),
-				ExceptionConstantsEnum.EXPIRED_TOKEN.exceptionMessage(), ex.getLocalizedMessage());
+		return ResponseWrapper.response(ExceptionConstantsEnum.TOKEN_EXPIRED.exceptionCode(),
+				ExceptionConstantsEnum.TOKEN_EXPIRED.exceptionMessage(), ex.getLocalizedMessage());
 	}
 }

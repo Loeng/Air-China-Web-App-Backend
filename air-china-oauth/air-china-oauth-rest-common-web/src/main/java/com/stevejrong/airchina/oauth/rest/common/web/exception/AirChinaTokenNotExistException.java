@@ -1,4 +1,4 @@
-/**
+package com.stevejrong.airchina.oauth.rest.common.web.exception;/**
  * Copyright 2018 Steve Jrong - https://www.stevejrong.top
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.stevejrong.airchina.oauth.rest.common.web.exception;
 
 import com.stevejrong.airchina.common.util.DateTimeUtil;
+import com.stevejrong.airchina.oauth.common.constant.ExceptionConstantsEnum;
 
 /**
- * Exception - Token过期异常
+ * Exception - Token不存在异常
  *
  * @author Steve Jrong
- * @since 1.0 create date: 2018年05月26日 下午5:21
+ * @since 1.0 create date: 2018年05月20日 下午4:27
  */
-public class AirChinaExpiredTokenException extends RuntimeException {
+public class AirChinaTokenNotExistException extends RuntimeException {
 
     private Long timestamp; // 时间戳
 
@@ -56,16 +56,11 @@ public class AirChinaExpiredTokenException extends RuntimeException {
         return message;
     }
 
-    /**
-     * 实例化Token过期异常
-     *
-     * @param code 异常代码
-     * @param message 异常消息
-     */
-    public AirChinaExpiredTokenException(Integer code, String message) {
-        super(message);
+    public AirChinaTokenNotExistException() {
+        super(ExceptionConstantsEnum.TOKEN_NOT_EXIST.exceptionMessage());
         this.timestamp = DateTimeUtil.getTimestampByNow();
-        this.code = code;
-        this.message = message;
+        this.code = ExceptionConstantsEnum.TOKEN_NOT_EXIST.exceptionCode();
+        this.message = ExceptionConstantsEnum.TOKEN_NOT_EXIST.exceptionMessage();
     }
+
 }

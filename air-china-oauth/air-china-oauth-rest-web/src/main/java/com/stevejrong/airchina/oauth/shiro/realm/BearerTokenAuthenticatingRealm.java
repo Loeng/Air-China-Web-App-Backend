@@ -15,10 +15,16 @@
  */
 package com.stevejrong.airchina.oauth.shiro.realm;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.base.Preconditions;
+import com.stevejrong.airchina.oauth.model.MenuModel;
+import com.stevejrong.airchina.oauth.model.RoleModel;
+import com.stevejrong.airchina.oauth.model.TokenModel;
+import com.stevejrong.airchina.oauth.model.UserModel;
+import com.stevejrong.airchina.oauth.service.MenuService;
+import com.stevejrong.airchina.oauth.service.RoleService;
+import com.stevejrong.airchina.oauth.service.TokenService;
+import com.stevejrong.airchina.oauth.service.UserService;
+import com.stevejrong.airchina.oauth.token.BearerToken;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -31,21 +37,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.base.Preconditions;
-import com.stevejrong.airchina.oauth.model.MenuModel;
-import com.stevejrong.airchina.oauth.model.RoleModel;
-import com.stevejrong.airchina.oauth.model.TokenModel;
-import com.stevejrong.airchina.oauth.model.UserModel;
-import com.stevejrong.airchina.oauth.service.MenuService;
-import com.stevejrong.airchina.oauth.service.RoleService;
-import com.stevejrong.airchina.oauth.service.TokenService;
-import com.stevejrong.airchina.oauth.service.UserService;
-import com.stevejrong.airchina.oauth.token.BearerToken;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Token认证数据源
  * 在访问受限资源时会用到
- * 
+ *
  * @author Steve Jrong
  * @since 1.0 create date: 2018年2月26日 下午4:46:24
  */
@@ -60,7 +59,7 @@ public class BearerTokenAuthenticatingRealm extends AuthorizingRealm {
 
 	@Autowired
 	private MenuService menuService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -77,12 +76,12 @@ public class BearerTokenAuthenticatingRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 		LOGGER.debug("访问到了需要权限的资源，开始进行授权...");
 		Preconditions.checkNotNull(principalCollection, "授权时的principals不能都为空！");
-		
+
 		String email = (String) getAvailablePrincipal(principalCollection);
 		if (email == null) {
 			throw new NullPointerException("授权时的principal不能为空！");
 		}
-		
+
 		UserModel user = userService.getByEmail(email);
 
 		// 根据用电子邮件地址查找此用户的角色和权限
@@ -126,7 +125,7 @@ public class BearerTokenAuthenticatingRealm extends AuthorizingRealm {
 
 	/**
 	 * 验证Token是否有效
-	 * 
+	 *
 	 * @param token 传入的Token信息实体
 	 * @param dbToken 数据库中的Token信息实体
 	 * @return
