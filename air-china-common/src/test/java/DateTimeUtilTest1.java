@@ -15,8 +15,7 @@
  */
 
 import com.stevejrong.airchina.common.util.DateTimeUtil;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -25,17 +24,8 @@ import org.junit.Test;
  * @author Steve Jrong
  * @since 1.0 create date: 2018年5月16日 上午9:18:25
  */
+@Ignore
 public class DateTimeUtilTest1 {
-
-    @Before
-    public void before() throws Exception {
-        System.out.println("测试开始……");
-    }
-
-    @After
-    public void after() throws Exception {
-        System.out.println("测试结束");
-    }
 
     @Test
     public void testGetUnixTimestampByNow() throws Exception {
