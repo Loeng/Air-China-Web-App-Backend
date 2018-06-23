@@ -4,10 +4,10 @@
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
-version = '1.0.0'
+version = '1.0.0-SNAPSHOT'
 
-tasks.withType(JavaCompile) {  
-	options.encoding = "UTF-8"  
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
 }
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'

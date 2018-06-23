@@ -18,14 +18,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.stevejrong.airchina.common.util.HttpUtil;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.*;
-import org.springframework.boot.SpringApplication;
-import com.stevejrong.airchina.oauth.*;
 
 /**
  * 用户登录鉴权测试用例1
@@ -33,15 +30,16 @@ import com.stevejrong.airchina.oauth.*;
  * @author Steve Jrong
  * @since 1.0 create date: 2018年5月16日 上午9:18:25
  */
+@Ignore
 public class OauthCaseTest1 {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         System.out.println("测试开始……");
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         System.out.println("测试结束……");
     }
 

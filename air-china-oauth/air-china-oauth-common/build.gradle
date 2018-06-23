@@ -4,16 +4,16 @@
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
-version = '1.0.0'
+version = '1.0.0-SNAPSHOT'
 
-tasks.withType(JavaCompile) {  
-	options.encoding = "UTF-8"  
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
 }
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 dependencies {
-	compile project(':air-china-common')
+    compile project(':air-china-common')
 
     compile group: 'com.google.guava', name: 'guava', version: '23.0'
     compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'

@@ -56,7 +56,7 @@ targetCompatibility = 1.8 // 指定确保class文件与targetCompatibility指定
 
 group 'com.stevejrong' // 设置用于Docker打包时镜像的组织
 archivesBaseName = 'air-china-oauth-rest-web-app' // 设置用于Jar包的最终名称
-version = '0.1-SNAPSHOT' // 设置用于Jar包的最终版本号
+version = '1.0.0-SNAPSHOT' // 设置用于Jar包的最终版本号
 
 // 设置用于项目的软件源库
 repositories {
