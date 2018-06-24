@@ -27,7 +27,7 @@ public class Constants {
 	public static final String REQUEST_ROOT_SUFFIX = "/oauth";
 	public static final String ERROR_SUFFIX = "/error";
 	public static final String USER_ID = "userid";
-	public static final String FAILED_REASON = "failed reason";
+	public static final String FAILED_DESCRIPTION = "description";
 	public static final String APPLICATION_JSON = "application/json";
 	public static final String UTF8 = "UTF-8";
 	public static final String APPLICATION_JSON_UTF8 = APPLICATION_JSON + ";charset=" + UTF8;
@@ -41,6 +41,10 @@ public class Constants {
 	public static final String AUTHORIZATION_SCHEME = "Bearer";
 	public static final String AUTHORIZATION_SCHEME_ALT = "Basic";
 	public static final String TOKEN = "token";
+
+	/** 加解密算法 */
+	public static final String DEFAULT_HASH_ALGORITH_NAME = "MD5";
+	public static final Integer MD5_HASH_ITERATIONS = 1024;
 
 	/** 消息 */
 	public static final String MESSAGE_CODE = "code";
