@@ -1,0 +1,4 @@
+/**
+ * 项目设置文件 - air-china-user-repository
+ */
+rootProject.name = 'air-china-user-repository'

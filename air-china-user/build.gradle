@@ -1,0 +1,34 @@
+/**
+ * 构建配置文件 - air-china-user
+ */
+apply plugin: 'java'
+apply plugin: 'idea'
+
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+	maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+dependencies {
+	testImplementation 'junit:junit:4.12'
+}
+
+configurations.all {
+	transitive = false
+}
+
+allprojects {
+	repositories {
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+	}
+}
+
+subprojects {
+}

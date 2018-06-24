@@ -1,0 +1,27 @@
+/**
+ * 项目设置文件 - air-china-user
+ */
+rootProject.name = 'air-china-user'
+
+include	'air-china-common',
+		'air-china-user-cache',
+		'air-china-user-common',
+		'air-china-user-model',
+		'air-china-user-mongo',
+		'air-china-user-repository',
+		'air-china-user-rest-common-web',
+		'air-china-user-rest-web',
+		'air-china-user-service',
+		'air-china-user-task'
+
+project(':air-china-common').projectDir = new File(settingsDir, '../air-china-common')
+project(':air-china-user-cache').projectDir = new File(settingsDir, '/air-china-user-cache')
+project(':air-china-user-common').projectDir = new File(settingsDir, '/air-china-user-common')
+project(':air-china-user-model').projectDir = new File(settingsDir, '/air-china-user-model')
+project(':air-china-user-mongo').projectDir = new File(settingsDir, '/air-china-user-mongo')
+project(':air-china-user-repository').projectDir = new File(settingsDir, '/air-china-user-repository')
+project(':air-china-user-rest-common-web').projectDir = new File(settingsDir, '/air-china-user-rest-common-web')
+project(':air-china-user-rest-web').projectDir = new File(settingsDir, '/air-china-user-rest-web')
+project(':air-china-user-service').projectDir = new File(settingsDir, '/air-china-user-service')
+project(':air-china-user-task').projectDir = new File(settingsDir, '/air-china-user-task')
+

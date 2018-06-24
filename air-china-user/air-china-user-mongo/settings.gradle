@@ -1,0 +1,4 @@
+/**
+ * 项目设置文件 - air-china-user-mongo
+ */
+rootProject.name = 'air-china-user-mongo'
