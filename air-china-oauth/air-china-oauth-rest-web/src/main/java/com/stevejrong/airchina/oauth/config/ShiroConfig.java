@@ -21,8 +21,7 @@ import com.stevejrong.airchina.oauth.shiro.filter.BearerTokenRevokeFilter;
 import com.stevejrong.airchina.oauth.shiro.realm.BearerTokenAuthenticatingRealm;
 import com.stevejrong.airchina.oauth.shiro.realm.DatabaseRealm;
 import com.stevejrong.airchina.oauth.shiro.stateless.StalessSecurityManager;
-import org.apache.shiro.authc.credential.DefaultPasswordService;
-import org.apache.shiro.authc.credential.PasswordMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -117,7 +116,7 @@ public class ShiroConfig {
 	@DependsOn("lifecycleBeanPostProcessor")
 	public DatabaseRealm databaseRealm() {
 		final DatabaseRealm realm = new DatabaseRealm();
-		realm.setCredentialsMatcher(credentialsMatcher());
+		realm.setCredentialsMatcher(hashedCredentialsMatcher());
 		return realm;
 	}
 
@@ -126,10 +125,26 @@ public class ShiroConfig {
 	 * 
 	 * @return
 	 */
-	@Bean(name = "credentialsMatcher")
+	/*@Bean(name = "credentialsMatcher")
 	public PasswordMatcher credentialsMatcher() {
 		final PasswordMatcher credentialsMatcher = new PasswordMatcher();
 		credentialsMatcher.setPasswordService(passwordService());
+		return credentialsMatcher;
+	}*/
+
+	/**
+	 * 创建密码服务以实现密码加密和比对
+	 * 使用MD5方式
+	 * @return
+	 */
+	@Bean("hashedCredentialsMatcher")
+	public HashedCredentialsMatcher hashedCredentialsMatcher() {
+		HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
+		//指定加密方式为MD5
+		credentialsMatcher.setHashAlgorithmName(Constants.DEFAULT_HASH_ALGORITH_NAME);
+		//加密次数
+		credentialsMatcher.setHashIterations(Constants.MD5_HASH_ITERATIONS);
+		credentialsMatcher.setStoredCredentialsHexEncoded(true);
 		return credentialsMatcher;
 	}
 
@@ -139,10 +154,10 @@ public class ShiroConfig {
 	 * 
 	 * @return
 	 */
-	@Bean(name = "passwordService")
+	/*@Bean(name = "passwordService")
 	public DefaultPasswordService passwordService() {
 		return new DefaultPasswordService();
-	}
+	}*/
 
 	/**
 	 * 设置 lifecycleBeanPostProcessor 类来自动的对Bean的生命周期进行管理
@@ -198,12 +213,12 @@ public class ShiroConfig {
 	 * 
 	 * @return
 	 */
-	// @Bean
-	// public ModularRealmAuthenticator modularRealmAuthenticator() {
-	// ModularRealmAuthenticator modularRealmAuthenticator = new
-	// ModularRealmAuthenticator();
-	// modularRealmAuthenticator.setAuthenticationStrategy(new
-	// AtLeastOneSuccessfulStrategy());
-	// return modularRealmAuthenticator;
-	// }
+	 /*@Bean
+	 public ModularRealmAuthenticator modularRealmAuthenticator() {
+	 ModularRealmAuthenticator modularRealmAuthenticator = new
+	 ModularRealmAuthenticator();
+	 modularRealmAuthenticator.setAuthenticationStrategy(new
+	 AtLeastOneSuccessfulStrategy());
+	 return modularRealmAuthenticator;
+	 }*/
 }

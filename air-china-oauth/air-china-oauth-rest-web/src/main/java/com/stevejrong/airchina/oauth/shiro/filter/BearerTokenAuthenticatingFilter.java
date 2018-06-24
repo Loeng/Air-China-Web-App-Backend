@@ -300,8 +300,8 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 			ServletResponse response) {
 		if (isLoginRequest(request, response)) {
 			HttpUtil.outputJsonMessage(HttpUtil.convertServletResponseToHttp(response), Constants.MESSAGE_CODE,
-					HttpStatus.OK.code(), Constants.MESSAGE, "unauthorized", Constants.FAILED_REASON,
-					e.getLocalizedMessage());
+					HttpStatus.UNAUTHORIZED.code(), Constants.MESSAGE, HttpStatus.UNAUTHORIZED.message(), Constants.FAILED_DESCRIPTION,
+					e.getMessage());
 		} else {
 			HttpUtil.outputErrorMessage(HttpUtil.convertServletResponseToHttp(response), HttpStatus.UNAUTHORIZED);
 		}

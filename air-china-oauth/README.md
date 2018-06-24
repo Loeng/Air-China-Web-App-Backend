@@ -1,5 +1,6 @@
 ## air-china-oauth
-Air-China机票预订Web App的权限验证及授权应用
+授权中心微服务
+>（Air-China机票预订Web App的权限验证及授权应用）
 
 #### 分层
 * air-china-oauth-cache 缓存层

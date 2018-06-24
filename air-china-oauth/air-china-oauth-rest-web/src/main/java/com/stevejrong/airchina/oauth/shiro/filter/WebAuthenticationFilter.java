@@ -15,12 +15,8 @@
  */
 package com.stevejrong.airchina.oauth.shiro.filter;
 
-import java.util.Collection;
-import java.util.Map;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
+import com.google.common.collect.Maps;
+import com.stevejrong.airchina.oauth.common.constant.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -30,8 +26,10 @@ import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Maps;
-import com.stevejrong.airchina.oauth.common.constant.Constants;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Filter - Form表单的认证过滤器
@@ -49,7 +47,7 @@ public class WebAuthenticationFilter extends FormAuthenticationFilter {
 	 */
 	@Override
 	protected void setFailureAttribute(ServletRequest request, AuthenticationException ae) {
-		request.setAttribute(Constants.FAILED_REASON, ae.getLocalizedMessage());
+		request.setAttribute(Constants.FAILED_DESCRIPTION, ae.getLocalizedMessage());
 	}
 
 	@Override
