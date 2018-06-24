@@ -2,13 +2,22 @@
 一个基于Spring Cloud平台，使用Spring Boot+Gradle构建的Air-China机票预订Web App的后端解决方案系统 
 
 ## 框架与技术
-* Gradle - https://gradle.org/
 * JWT - https://jwt.io/
 * Java 8 - http://www.oracle.com/technetwork/java/javase/8-whats-new-2157071.html
 * JSON - http://www.json.org/
 * MySQL Connector J - https://dev.mysql.com/
+* OKHttp - http://square.github.io/okhttp/
+* SLF4J - https://www.slf4j.org/
+* Shiro - https://shiro.apache.org/
+* MyBatis - http://www.mybatis.org/
+- Redis - https://redis.io/ （未来版本即将加入）
+- MongoDB - https://www.mongodb.com/ （未来版本即将加入）
+- RocketMQ - http://rocketmq.apache.org/ （未来版本即将加入）
 * Spring Boot - https://projects.spring.io/spring-boot/
 * Spring Cloud - https://cloud.spring.io/
+* Swagger - https://swagger.io/
+* Gradle - https://gradle.org/
+* Docker - https://www.docker.com/
 
 ## 开源许可
 Apache License 2.0
