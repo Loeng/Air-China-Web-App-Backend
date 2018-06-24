@@ -41,6 +41,7 @@ public class OauthRestController {
 
     /**
      * 用户授权
+     * 此方法无需在请求中实现
      *
      * @param credentials
      */
