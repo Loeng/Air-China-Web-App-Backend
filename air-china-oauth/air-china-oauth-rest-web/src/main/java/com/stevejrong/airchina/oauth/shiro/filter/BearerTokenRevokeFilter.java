@@ -51,8 +51,7 @@ public class BearerTokenRevokeFilter extends PathMatchingFilter {
 	 * 当匹配到包含设置的路径时，将在执行父类中isFilterChainContinued()方法之前执行此方法 此方法可在其中做日志记录或退出等操作
 	 */
 	@Override
-	protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue)
-			throws Exception {
+	protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) {
 		Subject subject = SecurityUtils.getSubject();
 		try {
 			subject.logout();

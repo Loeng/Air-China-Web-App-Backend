@@ -58,7 +58,7 @@ public class TokenRepositoryImpl implements TokenRepository {
 
 	@Override
 	public void update(TokenModel object) {
-
+		tokenMapper.update(object);
 	}
 
 	@Override

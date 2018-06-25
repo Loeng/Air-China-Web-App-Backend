@@ -15,16 +15,10 @@
  */
 package com.stevejrong.airchina.oauth.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-
 import com.stevejrong.airchina.oauth.model.TokenModel;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * Mapper - t_base_token
@@ -37,9 +31,8 @@ public interface TokenMapper {
 	String getByToken = "select * from t_base_token where token = #{token}";
 	String getByUserId = "select * from t_base_token t where t.user_id = #{userId}";
 	String getByEmail = "select * from t_base_token t where t.email = #{email}";
-	String deleteByToken = "delete from t_base_token where token = #{token}";
-	String insertToken = "insert into t_base_token (id, gmt_create, gmt_modified, user_id, email, token, state) values (default, now(), null, #{userId}, #{email}, #{token}, #{state})";
-	String updateToken = "update t_base_token set gmt_modified = #{gmt_modified}, token = #{token} where user_id = #{userId}";
+	String insert = "insert into t_base_token (id, gmt_create, gmt_modified, user_id, email, token, state) values (default, now(), null, #{userId}, #{email}, #{token}, #{state})";
+	String update = "update t_base_token set gmt_modified = now(), token = #{token} where user_id = #{userId}";
 
 	@Select(listAll)
 	@Results(value = { 
@@ -83,8 +76,8 @@ public interface TokenMapper {
 	TokenModel getByEmail(String email);
 	
 	/**
-	 * 根据电子邮件地址获取令牌信息
-	 * @param email 电子邮件地址
+	 * 根据用户ID获取令牌信息
+	 * @param userId 用户ID
 	 * @return
 	 */
 	@Select(getByUserId)
@@ -98,11 +91,19 @@ public interface TokenMapper {
             @Result(property = "state", column = "state")
     })
 	TokenModel getByUserId(String userId);
-	
-    @Delete(deleteByToken)
-    void deleteByToken(String token);
 
-    @Insert(insertToken)
+	/**
+	 * 更新Token
+	 * @param token
+	 */
+    @Update(update)
+    void update(TokenModel token);
+
+	/**
+	 * 新增Token
+	 * @param token
+	 */
+	@Insert(insert)
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(TokenModel token);
 }

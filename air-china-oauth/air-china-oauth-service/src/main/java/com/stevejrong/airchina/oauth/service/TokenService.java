@@ -26,14 +26,14 @@ import com.stevejrong.airchina.oauth.model.TokenModel;
 public interface TokenService {
 
 	/**
-	 * 创建认证Token
+	 * 创建或更新Token
 	 * @param userId 用户ID
-	 * @param email 电子邮件地址
+	 * @param email 电子邮件地址，用于在Jwt中设置用户的电子邮件地址凭据
 	 * 
 	 * @return 新创建的Token字符串
 	 */
-	String createAuthenticationToken(String userId, String email);
-	
+	String createOrUpdateAuthenticationToken(String userId, String email);
+
 	/**
 	 * 根据电子邮件地址获取令牌信息
 	 * 

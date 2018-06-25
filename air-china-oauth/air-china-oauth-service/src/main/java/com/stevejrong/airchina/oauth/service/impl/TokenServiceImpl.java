@@ -15,6 +15,7 @@
  */
 package com.stevejrong.airchina.oauth.service.impl;
 
+import com.stevejrong.airchina.common.util.DateTimeUtil;
 import com.stevejrong.airchina.oauth.common.constant.Constants;
 import com.stevejrong.airchina.oauth.model.TokenModel;
 import com.stevejrong.airchina.oauth.repository.TokenRepository;
@@ -41,16 +42,22 @@ public class TokenServiceImpl implements TokenService {
 	private TokenRepository tokenRepository;
 
 	@Override
-	public String createAuthenticationToken(String userId, String email) {
+	public String createOrUpdateAuthenticationToken(String userId, String email) {
 		LocalDate currentDate = LocalDate.now();
 		LocalDate sevenDaysLaterDate = currentDate.plusDays(7); // 当前时间7天后的时间
 		Date date = Date.from(sevenDaysLaterDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		String token = Jwts.builder().setSubject(email).setExpiration(date)
+		String token = Jwts.builder().setSubject(email + "|" + DateTimeUtil.getTimestampByNow()).setExpiration(date)
 				.signWith(SignatureAlgorithm.HS256, Constants.SECURET.getBytes()).compact();
 
-		TokenModel tokenModel = new TokenModel(userId, email, token, 1);
-		tokenRepository.save(tokenModel);
-		
+		TokenModel existToken = tokenRepository.getByUserId(userId);
+		if (null != existToken) {
+			existToken.setToken(token);
+			tokenRepository.update(existToken);
+		} else {
+			TokenModel tokenModel = new TokenModel(userId, email, token, 1);
+			tokenRepository.save(tokenModel);
+		}
+
 		return token;
 	}
 

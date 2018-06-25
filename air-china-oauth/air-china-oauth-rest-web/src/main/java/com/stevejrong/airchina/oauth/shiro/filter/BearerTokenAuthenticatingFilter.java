@@ -174,14 +174,15 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 	}
 
 	String[] getPrincipalsAndCredentials(String authorizeParam) throws AirChinaTokenExpiredException {
-		Jws<Claims> claims = null;
+		Jws<Claims> claims;
 		try {
 			claims = Jwts.parser().setSigningKey(Constants.SECURET.getBytes())
 					.parseClaimsJws(authorizeParam);
 		} catch (ExpiredJwtException e) {
 			throw new AirChinaTokenExpiredException(); // 如果是Jwt Token过期异常，就捕获到并抛出一个自定义的异常
 		}
-		String email = claims.getBody().getSubject();
+		String jwtSubject = claims.getBody().getSubject();
+		String email = claims.getBody().getSubject().substring(0, jwtSubject.indexOf("|"));
 		return new String[] { email, authorizeParam };
 	}
 
@@ -266,9 +267,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 			LOGGER.debug("开始创建Token……");
 			String email = (String) subject.getPrincipal();
 			UserModel user = userService.getByEmail(email);
-			TokenModel existToken = tokenService.getByUserId(user.getUserId());
-			
-			String newToken = createAuthenticationToken(existToken, user, email); // 创建Token
+			String newToken = createAuthenticationToken(user, email); // 创建Token
 
 			HttpUtil.outputJsonMessage(HttpUtil.convertServletResponseToHttp(response),
 					Constants.MESSAGE_TIMESTAMP, DateTimeUtil.getTimestampByNow(),
@@ -282,18 +281,15 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 	}
 	
 	/**
-	 * 创建Token并保存在数据库中
-	 * @param existToken
+	 * 创建Token并保存
+	 * 如有旧Token则更新Token值并返回
+	 *
 	 * @param user
 	 * @param email
 	 * @return
 	 */
-	String createAuthenticationToken (TokenModel existToken, UserModel user, String email){
-		if (existToken == null) {
-			return tokenService.createAuthenticationToken(user.getUserId(), email);
-		} else {
-			return existToken.getToken();
-		}
+	String createAuthenticationToken (UserModel user, String email){
+		return tokenService.createOrUpdateAuthenticationToken(user.getUserId(), email);
 	}
 
 	/**

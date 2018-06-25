@@ -68,6 +68,7 @@ dependencies {
     compile project(':air-china-oauth-service')
     compile project(':air-china-oauth-rest-common-web')
     compile project(':air-china-oauth-task')
+    compile project(':air-china-oauth-cache')
 
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.cloud:spring-cloud-starter-eureka:1.4.0.RELEASE")

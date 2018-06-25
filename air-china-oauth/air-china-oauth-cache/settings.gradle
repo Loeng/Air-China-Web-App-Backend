@@ -1,0 +1,4 @@
+/**
+ * 项目设置文件 - air-china-oauth-cache
+ */
+rootProject.name = 'air-china-oauth-cache'

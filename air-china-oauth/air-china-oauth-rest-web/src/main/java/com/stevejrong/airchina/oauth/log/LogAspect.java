@@ -15,10 +15,6 @@
  */
 package com.stevejrong.airchina.oauth.log;
 
-import java.util.Arrays;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -29,6 +25,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 /**
  * AspectJ - 日志
@@ -43,11 +42,11 @@ public class LogAspect {
 	
 	ThreadLocal<Long> startTime = new ThreadLocal<Long>();
 
-	@Pointcut("execution(public * com.stevejrong.airchina.oauth.rest.web.controller.*.*(..))")
+	@Pointcut(value = "execution(public * com.stevejrong.airchina.oauth.rest.web.controller.*.*(..))")
 	public void webRestLog() {
 	}
 
-	@Before("webRestLog()")
+	@Before(value = "webRestLog()")
 	public void doBefore(JoinPoint joinPoint) throws Throwable {
 		startTime.set(System.currentTimeMillis());
 		
@@ -62,7 +61,7 @@ public class LogAspect {
 	}
 
 	@AfterReturning(returning = "returnRequestResult", pointcut = "webRestLog()")
-	public void doAfterReturning(Object returnRequestResult) throws Throwable {
+	public void doAfterReturning(Object returnRequestResult) {
 		LOGGER.info("Response:{}", returnRequestResult);
 		LOGGER.info("Spend Time:{}", (System.currentTimeMillis() - startTime.get()));
 	}

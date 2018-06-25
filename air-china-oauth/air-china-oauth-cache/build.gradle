@@ -1,0 +1,16 @@
+/**
+ * 构建配置文件 - air-china-oauth-cache
+ */
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+version = '1.0.0'
+
+tasks.withType(JavaCompile) {  
+	options.encoding = "UTF-8"  
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+dependencies {
+}
