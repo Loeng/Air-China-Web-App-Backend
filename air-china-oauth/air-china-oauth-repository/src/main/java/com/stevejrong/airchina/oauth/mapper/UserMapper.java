@@ -1,73 +1,73 @@
-/**
- * Copyright 2018 Steve Jrong - https://www.stevejrong.top
-
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
-
- *     http://www.apache.org/licenses/LICENSE-2.0
-
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.stevejrong.airchina.oauth.mapper;
-
-import java.util.List;
-
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-
-import com.stevejrong.airchina.oauth.model.UserModel;
-
-/**
- * Mapper - t_base_user
- * 
- * @author Steve Jrong
- * @since 1.0
- * create date: 2018年2月26日 下午11:34:10
- */
-public interface UserMapper {
-	String listAll = "select * from t_base_user";
-	String getByEmail = "select * from t_base_user u where u.email = #{email}";
-	
-	@Select(listAll)
-	@Results(value = {
-            @Result(property = "id", column = "id"),
-            @Result(property = "gmtCreate", column = "gmt_create"),
-            @Result(property = "gmtModified", column = "gmt_modified"),
-            @Result(property = "userId", column = "user_id"),
-            @Result(property = "userName", column = "user_name"),
-            @Result(property = "password", column = "password"),
-            @Result(property = "email", column = "email"),
-            @Result(property = "age", column = "age"),
-            @Result(property = "gender", column = "gender"),
-            @Result(property = "telephone", column = "telephone"),
-            @Result(property = "address", column = "address")
-    })
-	List<UserModel> listAll();
-	
-	/**
-	 * 根据电子邮件地址获取用户信息
-	 * @param email 电子邮件地址
-	 * @return
-	 */
-	@Select(getByEmail)
-	@Results(value = {
-			@Result(property = "id", column = "id"),
-            @Result(property = "gmtCreate", column = "gmt_create"),
-            @Result(property = "gmtModified", column = "gmt_modified"),
-            @Result(property = "userId", column = "user_id"),
-            @Result(property = "userName", column = "user_name"),
-            @Result(property = "password", column = "password"),
-            @Result(property = "email", column = "email"),
-            @Result(property = "age", column = "age"),
-            @Result(property = "gender", column = "gender"),
-            @Result(property = "telephone", column = "telephone"),
-            @Result(property = "address", column = "address")
-    })
-	UserModel getByEmail(String email);
-}
+///**
+// * Copyright 2018 Steve Jrong - https://www.stevejrong.top
+//
+// * Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+//
+// *     http://www.apache.org/licenses/LICENSE-2.0
+//
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// */
+//package com.stevejrong.airchina.oauth.mapper;
+//
+//import java.util.List;
+//
+//import org.apache.ibatis.annotations.Result;
+//import org.apache.ibatis.annotations.Results;
+//import org.apache.ibatis.annotations.Select;
+//
+//import com.stevejrong.airchina.oauth.model.UserModel;
+//
+///**
+// * Mapper - t_base_user
+// *
+// * @author Steve Jrong
+// * @since 1.0
+// * create date: 2018年2月26日 下午11:34:10
+// */
+//public interface UserMapper {
+//	String listAll = "select * from t_base_user";
+//	String getByEmail = "select * from t_base_user u where u.email = #{email}";
+//
+//	@Select(listAll)
+//	@Results(value = {
+//            @Result(property = "id", column = "id"),
+//            @Result(property = "gmtCreate", column = "gmt_create"),
+//            @Result(property = "gmtModified", column = "gmt_modified"),
+//            @Result(property = "userId", column = "user_id"),
+//            @Result(property = "userName", column = "user_name"),
+//            @Result(property = "password", column = "password"),
+//            @Result(property = "email", column = "email"),
+//            @Result(property = "age", column = "age"),
+//            @Result(property = "gender", column = "gender"),
+//            @Result(property = "telephone", column = "telephone"),
+//            @Result(property = "address", column = "address")
+//    })
+//	List<UserModel> listAll();
+//
+//	/**
+//	 * 根据电子邮件地址获取用户信息
+//	 * @param email 电子邮件地址
+//	 * @return
+//	 */
+//	@Select(getByEmail)
+//	@Results(value = {
+//			@Result(property = "id", column = "id"),
+//            @Result(property = "gmtCreate", column = "gmt_create"),
+//            @Result(property = "gmtModified", column = "gmt_modified"),
+//            @Result(property = "userId", column = "user_id"),
+//            @Result(property = "userName", column = "user_name"),
+//            @Result(property = "password", column = "password"),
+//            @Result(property = "email", column = "email"),
+//            @Result(property = "age", column = "age"),
+//            @Result(property = "gender", column = "gender"),
+//            @Result(property = "telephone", column = "telephone"),
+//            @Result(property = "address", column = "address")
+//    })
+//	UserModel getByEmail(String email);
+//}

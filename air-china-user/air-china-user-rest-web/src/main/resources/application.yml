@@ -1,0 +1,50 @@
+# 启动端口配置
+server:
+  port: 9999
+
+# 定义的MyBatis JDBC连接属性
+jdbc: 
+ driver: com.mysql.cj.jdbc.Driver
+ url: jdbc:mysql://127.0.0.1:3306/air-china-oauth-db?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+ username: root
+ password: 12345678
+ maxActive: 233500
+ maxIdel: 120000
+ maxWait: 100000
+
+# 定义的线程池初始化属性
+threadPool:
+ corePoolSize: 25
+ maxPoolSize: 50
+ keepAliveSeconds: 2000
+ queueCapacity: 10
+
+# 日志级别
+ logging:
+  level:
+   com:
+    com:
+     stevejrong:
+      airchina:
+       oauth:
+        mapper: debug
+
+# 设置默认HTTP请求格式
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+      # 设置微服务应用名
+  application:
+    name: airchina-user
+
+# 设置注册到Eureka Server所需的信息
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka
+  instance:
+    prefer-ip-address: true
