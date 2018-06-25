@@ -15,15 +15,15 @@
  */
 package com.stevejrong.airchina.oauth.shiro.realm;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAccount;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import com.google.common.base.Preconditions;
+import com.stevejrong.airchina.oauth.model.MenuModel;
+import com.stevejrong.airchina.oauth.model.RoleModel;
+import com.stevejrong.airchina.oauth.model.UserModel;
+import com.stevejrong.airchina.oauth.service.MenuService;
+import com.stevejrong.airchina.oauth.service.RoleService;
+import com.stevejrong.airchina.oauth.service.UserService;
+import com.stevejrong.airchina.oauth.shiro.util.ShiroHashUtil;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -34,14 +34,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.base.Preconditions;
-import com.stevejrong.airchina.oauth.model.MenuModel;
-import com.stevejrong.airchina.oauth.model.RoleModel;
-import com.stevejrong.airchina.oauth.model.UserModel;
-import com.stevejrong.airchina.oauth.service.MenuService;
-import com.stevejrong.airchina.oauth.service.RoleService;
-import com.stevejrong.airchina.oauth.service.UserService;
-import com.stevejrong.airchina.oauth.shiro.util.ShiroHashUtil;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 数据库认证数据源
@@ -51,7 +46,6 @@ import com.stevejrong.airchina.oauth.shiro.util.ShiroHashUtil;
  * @since 1.0 create date: 2018年2月26日 下午11:24:45
  */
 public class DatabaseRealm extends AuthorizingRealm {
-	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseRealm.class);
 
 	@Autowired
