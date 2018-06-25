@@ -1,5 +1,3 @@
-package com.stevejrong.airchina.oauth.common.constant;
-
 /**
  * Copyright 2018 Steve Jrong - https://www.stevejrong.top
  * <p>
@@ -15,6 +13,7 @@ package com.stevejrong.airchina.oauth.common.constant;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.stevejrong.airchina.oauth.common.constant;
 
 /**
  * 异常相关枚举
@@ -32,7 +31,7 @@ public enum ExceptionConstantsEnum {
 
     private String exceptionMessage; // 异常信息
 
-    private ExceptionConstantsEnum(Integer exceptionCode, String exceptionMessage) {
+    ExceptionConstantsEnum(Integer exceptionCode, String exceptionMessage) {
         this.exceptionCode = exceptionCode;
         this.exceptionMessage = exceptionMessage;
     }
