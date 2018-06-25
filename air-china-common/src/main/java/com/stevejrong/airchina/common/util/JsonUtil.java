@@ -1,4 +1,3 @@
-package com.stevejrong.airchina.common.util;
 /**
  * Copyright 2018 Steve Jrong - https://www.stevejrong.top
 
@@ -14,7 +13,7 @@ package com.stevejrong.airchina.common.util;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+package com.stevejrong.airchina.common.util;
 
 import com.alibaba.fastjson.JSONObject;
 

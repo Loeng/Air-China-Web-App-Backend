@@ -28,7 +28,7 @@ import org.junit.Test;
 public class DateTimeUtilTest1 {
 
     @Test
-    public void testGetUnixTimestampByNow() throws Exception {
+    public void testGetUnixTimestampByNow() {
         System.out.println(DateTimeUtil.getTimestampByNow());
     }
 }

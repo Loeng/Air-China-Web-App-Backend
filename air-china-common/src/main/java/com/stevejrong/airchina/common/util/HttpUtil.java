@@ -1,4 +1,3 @@
-package com.stevejrong.airchina.common.util;
 /**
  * Copyright 2018 Steve Jrong - https://www.stevejrong.top
 
@@ -14,17 +13,17 @@ package com.stevejrong.airchina.common.util;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.stevejrong.airchina.common.util;
 
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
-
-import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Util - HTTP工具类
