@@ -1,4 +1,4 @@
-package com.stevejrong.airchina.eureka.server;/**
+/**
  * Copyright 2018 Steve Jrong - https://www.stevejrong.top
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,6 +13,7 @@ package com.stevejrong.airchina.eureka.server;/**
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.stevejrong.airchina.eureka.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
