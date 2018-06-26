@@ -10,5 +10,6 @@
 * air-china-user-repository 持久化层
 * air-china-user-rest-common-web Web公共通用层
 * air-china-user-rest-web Web层
+* air-china-user-rest-spi 依赖服务层（此微服务依赖其他服务的Feign接口声明）
 * air-china-user-service 业务层
 * air-china-user-task 定时任务层

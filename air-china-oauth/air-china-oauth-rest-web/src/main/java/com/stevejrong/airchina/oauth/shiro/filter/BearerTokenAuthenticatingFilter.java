@@ -19,14 +19,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.stevejrong.airchina.common.util.DateTimeUtil;
 import com.stevejrong.airchina.common.util.HttpStatus;
 import com.stevejrong.airchina.common.util.HttpUtil;
+import com.stevejrong.airchina.oauth.common.bo.UserBo;
 import com.stevejrong.airchina.oauth.common.constant.Constants;
 import com.stevejrong.airchina.oauth.model.TokenModel;
-import com.stevejrong.airchina.oauth.model.UserModel;
 import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaHeaderParamsException;
 import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaTokenExpiredException;
 import com.stevejrong.airchina.oauth.rest.common.web.exception.AirChinaTokenNotExistException;
+import com.stevejrong.airchina.oauth.rest.spi.feign.UserFeign;
 import com.stevejrong.airchina.oauth.service.TokenService;
-import com.stevejrong.airchina.oauth.service.UserService;
 import com.stevejrong.airchina.oauth.token.BearerToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -54,14 +54,13 @@ import java.util.Locale;
  * @since 1.0 create date: 2018年2月26日 下午12:25:03
  */
 public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(BearerTokenAuthenticatingFilter.class);
 
 	@Autowired
-	private TokenService tokenService;
-	
+	private UserFeign userFeign;
+
 	@Autowired
-	private UserService userService;
+	private TokenService tokenService;
 
 	private String userNameParam; // 获取新Token接口的用户名入参
 	private String passwordParam; // 获取新Token接口的用户密码入参
@@ -115,7 +114,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 			String userName = principlesAndCredentials[0];
 			String token = principlesAndCredentials[1];
 
-			UserModel user = userService.getByEmail(userName); // 暂时仅支持Email登录，其他方式有待扩展
+			UserBo user = userFeign.getByEmail(userName);
 			TokenModel existToken = tokenService.getByUserId(user.getUserId());
 			if (null == existToken) {
 				throw new AirChinaTokenNotExistException();
@@ -266,7 +265,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 		if (isLoginRequest(request, response)) { // 判断是否是登录请求，是则继续执行
 			LOGGER.debug("开始创建Token……");
 			String email = (String) subject.getPrincipal();
-			UserModel user = userService.getByEmail(email);
+			UserBo user = userFeign.getByEmail(email);
 			String newToken = createAuthenticationToken(user, email); // 创建Token
 
 			HttpUtil.outputJsonMessage(HttpUtil.convertServletResponseToHttp(response),
@@ -288,7 +287,7 @@ public class BearerTokenAuthenticatingFilter extends AuthenticatingFilter {
 	 * @param email
 	 * @return
 	 */
-	String createAuthenticationToken (UserModel user, String email){
+	String createAuthenticationToken (UserBo user, String email){
 		return tokenService.createOrUpdateAuthenticationToken(user.getUserId(), email);
 	}
 

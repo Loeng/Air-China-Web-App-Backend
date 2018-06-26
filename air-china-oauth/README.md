@@ -10,5 +10,6 @@
 * air-china-oauth-repository 持久化层
 * air-china-oauth-rest-common-web Web公共通用层
 * air-china-oauth-rest-web Web层
+* air-china-oauth-rest-spi 依赖服务层（此微服务依赖其他服务的Feign接口声明）
 * air-china-oauth-service 业务层
 * air-china-oauth-task 定时任务层

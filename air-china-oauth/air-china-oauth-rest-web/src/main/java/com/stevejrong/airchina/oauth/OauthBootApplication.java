@@ -23,6 +23,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -36,6 +37,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Import({ AppInitializerConfig.class, WebConfig.class, ShiroConfig.class, MyBatisConfig.class })
 @ComponentScan(basePackages = { "com.stevejrong.airchina.oauth" })
 @EnableDiscoveryClient
+@EnableFeignClients
 @EnableAsync
 @SpringBootConfiguration
 @SpringBootApplication

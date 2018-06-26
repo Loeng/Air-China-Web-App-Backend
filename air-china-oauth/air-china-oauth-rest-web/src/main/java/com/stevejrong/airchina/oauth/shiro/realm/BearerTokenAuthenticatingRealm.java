@@ -16,14 +16,14 @@
 package com.stevejrong.airchina.oauth.shiro.realm;
 
 import com.google.common.base.Preconditions;
+import com.stevejrong.airchina.oauth.common.bo.UserBo;
 import com.stevejrong.airchina.oauth.model.MenuModel;
 import com.stevejrong.airchina.oauth.model.RoleModel;
 import com.stevejrong.airchina.oauth.model.TokenModel;
-import com.stevejrong.airchina.oauth.model.UserModel;
+import com.stevejrong.airchina.oauth.rest.spi.feign.UserFeign;
 import com.stevejrong.airchina.oauth.service.MenuService;
 import com.stevejrong.airchina.oauth.service.RoleService;
 import com.stevejrong.airchina.oauth.service.TokenService;
-import com.stevejrong.airchina.oauth.service.UserService;
 import com.stevejrong.airchina.oauth.token.BearerToken;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -61,7 +61,7 @@ public class BearerTokenAuthenticatingRealm extends AuthorizingRealm {
 	private MenuService menuService;
 
 	@Autowired
-	private UserService userService;
+	private UserFeign userFeign;
 
 	public BearerTokenAuthenticatingRealm() {
 		super(new AllowAllCredentialsMatcher());
@@ -82,8 +82,7 @@ public class BearerTokenAuthenticatingRealm extends AuthorizingRealm {
 			throw new NullPointerException("授权时的principal不能为空！");
 		}
 
-		UserModel user = userService.getByEmail(email);
-
+		UserBo user = userFeign.getByEmail(email);
 		// 根据用电子邮件地址查找此用户的角色和权限
 		List<RoleModel> totalRoles = roleService.listAllRolesByUserId(user.getUserId()); // 查找所有角色（目前仅支持单角色，获取到了1个以上的角色就取其中的一个）
 		List<MenuModel> totalMenuPermissions = menuService.listAllMenusByUserId(user.getUserId()); // 查找所有菜单权限

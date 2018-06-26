@@ -12,8 +12,9 @@ include 'air-china-common',
 		'air-china-oauth-service',
 		'air-china-oauth-rest-common-web',
 		'air-china-oauth-rest-web',
+		'air-china-oauth-rest-spi',
 		'air-china-oauth-task'
-		
+
 project(':air-china-common').projectDir = new File(settingsDir, '../air-china-common')
 project(':air-china-oauth-common').projectDir = new File(settingsDir, '/air-china-oauth-common')
 project(':air-china-oauth-cache').projectDir = new File(settingsDir, '/air-china-oauth-cache')
@@ -23,4 +24,6 @@ project(':air-china-oauth-repository').projectDir = new File(settingsDir, '/air-
 project(':air-china-oauth-service').projectDir = new File(settingsDir, '/air-china-oauth-service')
 project(':air-china-oauth-rest-common-web').projectDir = new File(settingsDir, '/air-china-oauth-rest-common-web')
 project(':air-china-oauth-rest-web').projectDir = new File(settingsDir, '/air-china-oauth-rest-web')
+project(':air-china-oauth-rest-spi').projectDir = new File(settingsDir, '/air-china-oauth-rest-spi')
 project(':air-china-oauth-task').projectDir = new File(settingsDir, '/air-china-oauth-task')
+
