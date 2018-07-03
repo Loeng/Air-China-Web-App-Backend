@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
  * @author Steve Jrong
  * @since 1.0 create date: 2018年3月2日 下午8:14:55
  */
-@Service("userGroupService")
+@Service
 public class UserGroupServiceImpl implements UserGroupService {
 
 }

@@ -29,7 +29,7 @@ import java.util.List;
  * @author Steve Jrong
  * @since 1.0 create date: 2018年2月26日 下午11:36:56
  */
-@Component("userRepository")
+@Component
 public class UserRepositoryImpl implements UserRepository {
 
 	@Autowired

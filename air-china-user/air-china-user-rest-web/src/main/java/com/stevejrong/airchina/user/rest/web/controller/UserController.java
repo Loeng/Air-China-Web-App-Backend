@@ -22,8 +22,6 @@ import com.stevejrong.airchina.user.model.UserModel;
 import com.stevejrong.airchina.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +49,15 @@ public class UserController {
 
     /**
      * 获取所有用户
+     *
      * @return
      */
     @ApiOperation(value = "获取所有用户")
     @GetMapping("/list")
-    @RequiresAuthentication
-    @RequiresRoles("super-admin")
-    public @ResponseBody Object listAllUsers() {
+    // @RequiresAuthentication
+    // @RequiresRoles("super-admin")
+    public @ResponseBody
+    Object listAllUsers() {
         return ResponseWrapper.response(HttpStatus.OK.code(), HttpStatus.OK.message(), "Microservice of user response mock data");
     }
 }

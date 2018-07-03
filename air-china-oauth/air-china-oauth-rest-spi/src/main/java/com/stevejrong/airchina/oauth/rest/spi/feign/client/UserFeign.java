@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.stevejrong.airchina.oauth.rest.spi.feign;
+package com.stevejrong.airchina.oauth.rest.spi.feign.client;
 
 import com.stevejrong.airchina.oauth.common.bo.UserBo;
 import com.stevejrong.airchina.oauth.rest.spi.config.FeignConfig;

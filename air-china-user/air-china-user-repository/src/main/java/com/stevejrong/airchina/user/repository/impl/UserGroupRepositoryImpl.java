@@ -27,7 +27,7 @@ import java.util.List;
  * @author Steve Jrong
  * @since 1.0 create date: 2018年3月2日 下午2:13:46
  */
-@Component("userGroupRepository")
+@Component
 public class UserGroupRepositoryImpl implements UserGroupRepository {
 
 	@Override

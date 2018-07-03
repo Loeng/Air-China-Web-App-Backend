@@ -50,4 +50,7 @@ public class Constants {
 	public static final String MESSAGE_CODE = "code";
 	public static final String MESSAGE = "message";
 	public static final String MESSAGE_TIMESTAMP = "timestamp";
+
+	/** Feign接口 */
+	public static final String USER_FEIGN_REQUEST_ROOT_SUFFIX = "user";
 }
